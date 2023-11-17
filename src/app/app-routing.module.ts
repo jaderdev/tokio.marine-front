@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'home',
+    path: '',
     title: 'Home',
     loadComponent: async () => (await import('./pages/home/home.component')).HomeComponent,
   },
