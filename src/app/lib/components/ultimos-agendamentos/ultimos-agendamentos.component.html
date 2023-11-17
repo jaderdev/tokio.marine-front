@@ -1,28 +1,22 @@
-<table class="table table-striped">
+<table class="table table-striped mt-4">
 	<thead>
 		<tr>
 			<th scope="col">Data Agendamento</th>
 			<th scope="col">Conta Origem</th>
 			<th scope="col">Conta Destino</th>
-			<th scope="col">Valor</th>
-			<th scope="col">Taxa</th>
 			<th scope="col">Data Transferência</th>
+			<th class="text-end" scope="col">Taxa</th>
+			<th class="text-center" scope="col text-end">Valor</th>
 		</tr>
 	</thead>
 	<tbody>
-			<tr *ngFor="let country of countries">
-				<th scope="row">{{ country.dataAgendamento }}</th>
-				<td>
-					<img
-						[src]="'https://upload.wikimedia.org/wikipedia/commons/' + country.flag"
-						[alt]="'The flag of ' + country.name"
-						class="me-2"
-						style="width: 20px"
-					/>
-					{{ country.name }}
-				</td>
-				<td>{{ country.area | number }}</td>
-				<td>{{ country.population | number }}</td>
+			<tr *ngFor="let t of transferencias" class="pt-4 pb-4">
+				<td class="text-center" scope="row">{{ t.dataAgendamento }}</td>
+				<td scope="row">{{ t.contaOrigem }}</td>
+				<td scope="row">{{ t.contaDestino }}</td>
+				<td class="text-center">{{ t.dataTransferencia }}</td>
+				<td class="text-end">{{ t.taxa }}</td>
+				<th class="text-end pr-4">{{ t.valor }}</th>
 			</tr>
 	</tbody>
 </table>
