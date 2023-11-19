@@ -6,6 +6,7 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { heroChevronLeft, heroChevronRight, heroCalendarDays } from '@ng-icons/heroicons/outline';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
+import { TokioMarineService } from '@lib/services/tokio-marine/tokio-marine.service';
 
 @Component({
   selector: 'app-transferencia-form',
@@ -27,7 +28,7 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
       heroCalendarDays
     })]
   })
-  export class TransferenciaFormComponent {
+  export class TransferenciaFormComponent implements OnInit{
     
     today = new Date();
     step: number;
@@ -56,21 +57,21 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
     
     transfValueInput = new FormControl(0);
     
-    constructor(private formBuilder: FormBuilder) {
+    constructor(
+      private formBuilder: FormBuilder,
+      private service: TokioMarineService
+      ) {
       this.step = 1;
+    }
+  
+    ngOnInit(): void {
+      this.service.getTranferencias().subscribe((result)=>{
+        console.log(result)
+      })
     }
     
     increaseStep = ()=>{ if(this.step < 4 ) this.step += 1; }
     decreaseStep = ()=>{ if(this.step > 1 ) this.step -= 1; }
-    
-    enviarTransacao(){
-      console.table({
-        "date": `${this.model.year}-${this.model.month}-${this.model.day}`,
-        "destAccount":this.destAccountInput.value,
-        "value": this.transfValueInput.value,
-        "destAccount2" : this.destAccountInput.valid,
-      })
-    }
     
     getDateFromNgbDateStruct(d: NgbDateStruct){ return new Date(d.year,d.month-1,d.day); }
     
@@ -88,6 +89,15 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
     
     verifyAccount(event: any){
       return event.value = event.value.replaceAll(/[^0-9]/g,'').slice(0,10);
+    }
+
+    enviarTransacao(){
+      console.table({
+        "date": `${this.model.year}-${this.model.month}-${this.model.day}`,
+        "destAccount":this.destAccountInput.value,
+        "value": this.transfValueInput.value,
+        "destAccount2" : this.destAccountInput.valid,
+      })
     }
   }
   
