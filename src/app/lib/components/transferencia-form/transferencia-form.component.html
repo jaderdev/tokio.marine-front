@@ -1,0 +1,111 @@
+<div class="container mt-4">
+    <div class="row border-bottom">
+        <div class="col-12" [hidden]="step !== 1">
+            <h2 class="h5"> Qual será o dia?</h2>
+        </div>
+        <div class="col-12" [hidden]="step !== 2">
+            <h2 class="h5"> Para qual conta será enviada?</h2>
+        </div>
+        <div class="col-12" [hidden]="step !== 3">
+            <h2 class="h5"> Qual será o valor?</h2>
+        </div>
+        <div class="col-12" [hidden]="step !== 4">
+            <h2 class="h5"> Informações da transação</h2>
+        </div>
+    </div>
+    <div class="row mb-5">
+        <div class="col-12 text-center step-body" [hidden]="step !== 1">
+          <ngb-datepicker #dp [(ngModel)]="model" (navigate)="date = $event.next" />
+        </div>
+        <div class="col-12 text-left step-body" [hidden]="step !== 2">
+            <div class="mb-3 pt-4">
+                <label for="conta" class="form-label">Você estará enviando da sua conta:</label>
+                <input id="conta" class="form-control" type="text" placeholder="Conta origem - XXXXXXXXXX" aria-label="default input example" [readonly]="true">
+            </div>
+            <div class="mb-3 pt-4 step-body">
+                <label for="conta" class="form-label">Para a conta:</label>
+                <input id="conta" class="form-control" type="text" placeholder="Conta destino - XXXXXXXXXX" aria-label="default input example">
+            </div>
+        </div>
+        <div class="col-12 pt-4 text-center step-body" [hidden]="step !== 3">
+            <div class="row">
+                <div class="col-3">
+                    <p class="currency-sign">R$</p>
+                </div>
+                <div class="col-9">
+                    <input id="valor" class="form-control" type="text" placeholder="0000,00" aria-label="default input example">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Quantidade de dias</th>
+                            <th scope="col">Taxa aplicada</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">1 a 10</th>
+                            <td>Mark</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">11 a 20</th>
+                            <td>Jacob</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">21 a 30</th>
+                            <td colspan="2">Larry the Bird</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 pt-4 text-left step-body" [hidden]="step !== 4">
+            <table class="table">
+                <tbody>
+                  <tr>
+                    <th scope="row">Data da transferência:</th>
+                    <td>{{ '18/11/2023' }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Intervalo de dias:</th>
+                    <td>{{ 1 }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Conta de destino:</th>
+                    <td>{{ '0983420398' }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Taxa aplicada:</th>
+                    <td>{{ '10%' }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Valor da taxa:</th>
+                    <td>{{ 10 | currency }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Valor da transferência:</th>
+                    <td>{{ 10 | currency }}</td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+    <div class="container border-top pt-3">
+        <div class="row">
+            <div class="col-6 d-grid gap-2">
+                <button id="btn_previous" class="btn btn-secondary fw-bold pt-2" (click)="decreaseStep()">
+                    <ng-icon name="heroChevronLeft"></ng-icon>
+                    Voltar</button>
+            </div>
+            <div class="col-6 d-grid gap-2">
+                <button id="btn_next" class="btn btn-success fw-bold pt-2" (click)="increaseStep()">Avançar
+                    <ng-icon name="heroChevronRight"></ng-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

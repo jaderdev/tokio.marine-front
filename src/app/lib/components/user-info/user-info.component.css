@@ -1,0 +1,10 @@
+main {
+    height: calc(47% - 5px);
+}
+.card img {
+    height: 10rem;
+}
+
+.card-text {
+    text-indent: 20px;
+}
