@@ -33,12 +33,7 @@ ng-icon {
     background-color: rgba(2, 117, 216, 0.5);
 }
 
-.currency-sign {
-    font-size: 50pt;
-    margin-top: 10px;
-}
-
 #valor {
     font-size: 50pt;
-    padding: 10px 10px 0px 15px;
+    padding: 10px 10px 0px 10px;
 }

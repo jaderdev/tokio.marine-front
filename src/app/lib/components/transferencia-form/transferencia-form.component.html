@@ -15,25 +15,25 @@
     </div>
     <div class="row mb-5">
         <div class="col-12 text-center step-body" [hidden]="step !== 1">
-          <ngb-datepicker #dp [(ngModel)]="model" (navigate)="date = $event.next" />
+          <ngb-datepicker #dp [minDate]="minDate" [(ngModel)]="model"/>
         </div>
         <div class="col-12 text-left step-body" [hidden]="step !== 2">
             <div class="mb-3 pt-4">
                 <label for="conta" class="form-label">Você estará enviando da sua conta:</label>
-                <input id="conta" class="form-control" type="text" placeholder="Conta origem - XXXXXXXXXX" aria-label="default input example" [readonly]="true">
+                <input id="conta" class="form-control" type="text" value="0000001231" 
+                aria-label="default input example" [readonly]="true">
             </div>
             <div class="mb-3 pt-4 step-body">
                 <label for="conta" class="form-label">Para a conta:</label>
-                <input id="conta" class="form-control" type="text" placeholder="Conta destino - XXXXXXXXXX" aria-label="default input example">
+                <input id="conta" class="form-control" type="text" [formControl]="destAccountInput" 
+                placeholder="Conta destino - XXXXXXXXXX" aria-label="default input example" (keyup)="verifyAccount($event.target)">
             </div>
         </div>
         <div class="col-12 pt-4 text-center step-body" [hidden]="step !== 3">
             <div class="row">
-                <div class="col-3">
-                    <p class="currency-sign">R$</p>
-                </div>
-                <div class="col-9">
-                    <input id="valor" class="form-control" type="text" placeholder="0000,00" aria-label="default input example">
+                <div class="col-12">
+                    <input id="valor" class="form-control" [formControl]="transfValueInput" type="text" placeholder="R$ 0,00" 
+                    aria-label="default input example" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
                 </div>
             </div>
             <div class="row">
@@ -68,27 +68,27 @@
                 <tbody>
                   <tr>
                     <th scope="row">Data da transferência:</th>
-                    <td>{{ '18/11/2023' }}</td>
+                    <td>{{ getDateFromNgbDateStruct(this.model) | date : 'd/M/yyyy' }}</td>
                   </tr>
                   <tr>
                     <th scope="row">Intervalo de dias:</th>
-                    <td>{{ 1 }}</td>
+                    <td>{{ intervaloDeDatasEmDias() }}</td>
                   </tr>
                   <tr>
                     <th scope="row">Conta de destino:</th>
-                    <td>{{ '0983420398' }}</td>
+                    <td>{{ destAccountInput.value }}</td>
                   </tr>
                   <tr>
                     <th scope="row">Taxa aplicada:</th>
-                    <td>{{ '10%' }}</td>
+                    <td>{{ appliedTax }}</td>
                   </tr>
                   <tr>
                     <th scope="row">Valor da taxa:</th>
-                    <td>{{ 10 | currency }}</td>
+                    <td>{{ taxValue | currency : 'BRL'}}</td>
                   </tr>
                   <tr>
                     <th scope="row">Valor da transferência:</th>
-                    <td>{{ 10 | currency }}</td>
+                    <td>{{ transfValueInput.value | currency : 'BRL'}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -97,13 +97,20 @@
     <div class="container border-top pt-3">
         <div class="row">
             <div class="col-6 d-grid gap-2">
-                <button id="btn_previous" class="btn btn-secondary fw-bold pt-2" (click)="decreaseStep()">
+                <button id="btn_previous" class="btn btn-secondary fw-bold pt-2" (click)="decreaseStep()" [disabled]="step === 1">
                     <ng-icon name="heroChevronLeft"></ng-icon>
-                    Voltar</button>
+                    <span>Voltar</span>
+                  </button>
             </div>
-            <div class="col-6 d-grid gap-2">
-                <button id="btn_next" class="btn btn-success fw-bold pt-2" (click)="increaseStep()">Avançar
+            <div class="col-6 d-grid gap-2" >
+                <button id="btn_next" class="btn btn-secondary fw-bold pt-2" (click)="increaseStep()" 
+                        [hidden]="step === 4">
+                    <span>Avançar</span>
                     <ng-icon name="heroChevronRight"></ng-icon>
+                </button>
+                <button id="btn_next" class="btn btn-success fw-bold pt-2 text-white" (click)="enviarTransacao()" [hidden]="step !== 4">
+                  <ng-icon name="heroCalendarDays"></ng-icon>
+                  <span > &nbsp;Agendar</span>
                 </button>
             </div>
         </div>
