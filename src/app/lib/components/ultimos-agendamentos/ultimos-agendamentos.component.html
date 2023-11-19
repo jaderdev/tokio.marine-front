@@ -1,25 +1,27 @@
-<table class="table table-striped mt-2">
-	<thead>
-		<tr>
-			<th scope="col">Data Agendamento</th>
-			<th scope="col">Conta Origem</th>
-			<th scope="col">Conta Destino</th>
-			<th scope="col">Data Transferência</th>
-			<th class="text-end" scope="col">Taxa</th>
-			<th class="text-center" scope="col text-end">Valor</th>
-		</tr>
-	</thead>
-	<tbody>
-			<tr *ngFor="let t of transferencias" class="pt-4 pb-4">
-				<td class="text-center" scope="row">{{ t.dataCriacao | date : 'd/M/yyyy' }}</td>
-				<td scope="row">{{ t.contaOrigem }}</td>
-				<td scope="row">{{ t.contaDestino }}</td>
-				<td class="text-center">{{ t.dataTransferencia | date : 'd/M/yyyy' }}</td>
-				<td class="text-end">{{ parseTaxFromPercentage(t.taxa) }}%</td>
-				<th class="text-end pr-4">{{ t.valor | currency : 'BRL'}}</th>
+<div class="container-agendamentos">
+	<table class="table table-striped mt-2">
+		<thead>
+			<tr>
+				<th scope="col">Data Agendamento</th>
+				<th scope="col">Conta Origem</th>
+				<th scope="col">Conta Destino</th>
+				<th scope="col">Data Transferência</th>
+				<th class="text-end" scope="col">Taxa</th>
+				<th class="text-center" scope="col text-end">Valor</th>
 			</tr>
-	</tbody>
-</table>
+		</thead>
+		<tbody>
+				<tr *ngFor="let t of transferencias" class="pt-4 pb-4">
+					<td class="text-center" scope="row">{{ t.dataCriacao | date : 'd/M/yyyy' }}</td>
+					<td scope="row">{{ t.contaOrigem }}</td>
+					<td scope="row">{{ t.contaDestino }}</td>
+					<td class="text-center">{{ t.dataTransferencia | date : 'd/M/yyyy' }}</td>
+					<td class="text-end">{{ parseTaxFromPercentage(t.taxa) }}%</td>
+					<th class="text-end pr-4">{{ t.valor | currency : 'BRL'}}</th>
+				</tr>
+		</tbody>
+	</table>
+</div>
 <div class="d-grid gap-2">
 	<button class="btn btn-primary fw-bold pt-2" type="button">Ver Mais</button>
   </div>
