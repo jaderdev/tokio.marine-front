@@ -11,12 +11,12 @@
 	</thead>
 	<tbody>
 			<tr *ngFor="let t of transferencias" class="pt-4 pb-4">
-				<td class="text-center" scope="row">{{ t.dataAgendamento }}</td>
+				<td class="text-center" scope="row">{{ t.dataCriacao | date : 'd/M/yyyy' }}</td>
 				<td scope="row">{{ t.contaOrigem }}</td>
 				<td scope="row">{{ t.contaDestino }}</td>
-				<td class="text-center">{{ t.dataTransferencia }}</td>
-				<td class="text-end">{{ t.taxa }}</td>
-				<th class="text-end pr-4">{{ t.valor }}</th>
+				<td class="text-center">{{ t.dataTransferencia | date : 'd/M/yyyy' }}</td>
+				<td class="text-end">{{ parseTaxFromPercentage(t.taxa) }}%</td>
+				<th class="text-end pr-4">{{ t.valor | currency : 'BRL'}}</th>
 			</tr>
 	</tbody>
 </table>

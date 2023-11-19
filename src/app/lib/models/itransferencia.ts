@@ -3,8 +3,8 @@ export interface Transferencia {
     agendada: boolean
     contaOrigem: string
     contaDestino: string
-    taxa: number
-    valor: number
+    taxa: string
+    valor: string
     dataTransferencia: string
     dataCriacao: string
   }
