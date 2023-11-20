@@ -46,23 +46,14 @@ const ALERTS: Alert[] = [
   export class TransferenciaFormComponent implements OnInit{
     
     alerts: Alert[]= [];
-    today = new Date();
     step: number;
     appliedTax: number = 0;
     taxValue: number = 0;
     
-    model: NgbDateStruct = {  
-      day: this.today.getUTCDate(), 
-      month: this.today.getUTCMonth() + 1,
-      year: this.today.getUTCFullYear()
-    };
-    
-    minDate: NgbDateStruct = { 
-      day: this.today.getUTCDate(),
-      month: this.today.getUTCMonth() + 1,
-      year: this.today.getUTCFullYear()
-    };
-    
+    model: NgbDateStruct;
+    minDate: NgbDateStruct;
+    maxDate: NgbDateStruct;
+
     destAccountInput = new FormControl('', 
     [
       Validators.required,
@@ -78,8 +69,25 @@ const ALERTS: Alert[] = [
       private formBuilder: FormBuilder,
       private service: TokioMarineService
       ) {
-      this.step = 3;
+      this.step = 1;
       this.reset();
+
+      let today = new Date();
+      this.model = {  
+        day: today.getUTCDate(), 
+        month: today.getUTCMonth() + 1,
+        year: today.getUTCFullYear()
+      };
+
+      this.minDate = this.model;
+      
+      today.setDate(today.getDate() + 49)
+      this.maxDate = {  
+        day: today.getUTCDate(), 
+        month: today.getUTCMonth() + 1,
+        year: today.getUTCFullYear()
+      };
+      console.log(this.maxDate, this.minDate, this.model)
     }
   
     ngOnInit(): void {
@@ -115,7 +123,7 @@ const ALERTS: Alert[] = [
       let transferencia: Transferencia = {
         agendada: true, 
         contaDestino: String(this.destAccountInput.value),
-        dataCriacao: this.today.toISOString().split("T")[0],
+        dataCriacao: new Date().toISOString().split("T")[0],
         dataTransferencia: this.getDateFromNgbDateStruct(this.model).toISOString().split("T")[0],
         valor: String(this.transfValueInput.value),
       }
@@ -142,7 +150,7 @@ const ALERTS: Alert[] = [
     }
     
     close(alert: Alert) {
-      this.alerts.splice(this.alerts.indexOf(alert), 1);
+      this.alerts = [];
     }
  
     reset() {
