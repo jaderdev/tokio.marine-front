@@ -49,6 +49,7 @@ const ALERTS: Alert[] = [
     step: number;
     appliedTax: number = 0;
     taxValue: number = 0;
+    myAccount = "0000001231";
     
     model: NgbDateStruct;
     minDate: NgbDateStruct;
@@ -147,6 +148,7 @@ const ALERTS: Alert[] = [
         dataCriacao: new Date().toISOString().split("T")[0],
         dataTransferencia: this.getDateFromNgbDateStruct(this.model).toISOString().split("T")[0],
         valor: String(this.transfValueInput.value),
+        contaOrigem: this.myAccount
       }
 
       this.service.postTransferencia(transferencia).subscribe({
