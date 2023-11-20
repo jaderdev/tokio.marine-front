@@ -62,7 +62,10 @@ const ALERTS: Alert[] = [
       Validators.maxLength(10)
     ]);
     
-    transfValueInput = new FormControl(0);
+    transfValueInput = new FormControl(0,[
+      Validators.required,
+      Validators.min(2)
+    ]);
     taxasTransferencia: TaxasTransferencia[] = [];
     
     constructor(
@@ -87,7 +90,6 @@ const ALERTS: Alert[] = [
         month: today.getUTCMonth() + 1,
         year: today.getUTCFullYear()
       };
-      console.log(this.maxDate, this.minDate, this.model)
     }
   
     ngOnInit(): void {
@@ -98,7 +100,27 @@ const ALERTS: Alert[] = [
       })
     }
     
-    increaseStep = ()=>{ if(this.step < 4 ) this.step += 1; }
+    increaseStep = ()=>{ 
+      if(this.step > 4 ) {
+        return false;
+      }
+      switch(this.step){
+        case 2:
+          if(!this.destAccountInput.valid){
+            this.addAlert("Por favor insira a conta de destino corretamente com 10 dígitos","danger");
+            return false;
+          }
+        break;
+        case 3:
+          if(!this.transfValueInput.valid){
+            this.addAlert("Por favor insira um valor para a transferência.","danger");
+            return false;
+          }
+        break;
+      }
+      
+      return this.step += 1;
+    }
     decreaseStep = ()=>{ if(this.step > 1 ) this.step -= 1; }
     
     getDateFromNgbDateStruct(d: NgbDateStruct){ return new Date(d.year,d.month-1,d.day); }
@@ -146,11 +168,14 @@ const ALERTS: Alert[] = [
     addAlert(message: string, type: string){
       let alert: Alert = { type: type, message: message};
       this.alerts.push(alert)
+      setTimeout(()=>{
+        this.close(alert)
+      },5000)
       return alert;
     }
     
     close(alert: Alert) {
-      this.alerts = [];
+      this.alerts.splice(this.alerts.indexOf(alert),1);
     }
  
     reset() {

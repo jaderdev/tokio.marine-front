@@ -31,7 +31,6 @@ export class UltimosAgendamentosComponent implements OnInit{
 
 	parseTaxFromPercentage(tax: string | undefined){
 		let percent: string = String(Number(tax) * 100);
-		console.log(tax,percent)
 		return percent.substring(0,percent.indexOf(".")+2);
 	}
 
