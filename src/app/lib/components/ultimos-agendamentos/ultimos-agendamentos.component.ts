@@ -20,12 +20,16 @@ export class UltimosAgendamentosComponent implements OnInit{
 	}
 	
 	ngOnInit(): void {
+		this.loadTransferencias()	
+	}
+
+	loadTransferencias(){
 		this.service.getTranferencias().subscribe((result)=>{
-				this.transferencias = result;
+			this.transferencias = result;
 		})
 	}
 
-	parseTaxFromPercentage(tax: string){
+	parseTaxFromPercentage(tax: string | undefined){
 		return Number(tax) * 100;
 	}
 

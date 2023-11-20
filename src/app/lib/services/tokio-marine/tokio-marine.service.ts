@@ -7,12 +7,16 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class TokioMarineService {
-
+  
   constructor(  private http: HttpClient) { }
-
+  
   private url = 'http://localhost:8080/api/transferencias';
-
+  
   getTranferencias(): Observable<Transferencia[]> {
     return this.http.get<Transferencia[]>(this.url)
+  }
+  
+  postTransferencia(transferencia: Transferencia): Observable<Transferencia> {
+    return this.http.post<Transferencia>(this.url, transferencia)
   }
 }

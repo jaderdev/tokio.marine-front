@@ -16,12 +16,12 @@
 					<td scope="row">{{ t.contaOrigem }}</td>
 					<td scope="row">{{ t.contaDestino }}</td>
 					<td class="text-center">{{ t.dataTransferencia | date : 'd/M/yyyy' }}</td>
-					<td class="text-end">{{ parseTaxFromPercentage(t.taxa) }}%</td>
+					<td class="text-end">{{ parseTaxFromPercentage(t.taxa)}}%</td>
 					<th class="text-end pr-4">{{ t.valor | currency : 'BRL'}}</th>
 				</tr>
 		</tbody>
 	</table>
 </div>
 <div class="d-grid gap-2">
-	<button class="btn btn-primary fw-bold pt-2" type="button">Ver Mais</button>
+	<button class="btn btn-primary fw-bold pt-2" type="button" (click)="loadTransferencias()">Ver Mais</button>
   </div>

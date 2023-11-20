@@ -7,6 +7,7 @@ import { heroChevronLeft, heroChevronRight, heroCalendarDays } from '@ng-icons/h
 import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { TokioMarineService } from '@lib/services/tokio-marine/tokio-marine.service';
+import { Transferencia } from '@lib/models/itransferencia';
 
 @Component({
   selector: 'app-transferencia-form',
@@ -47,7 +48,7 @@ import { TokioMarineService } from '@lib/services/tokio-marine/tokio-marine.serv
       year: this.today.getUTCFullYear()
     };
     
-    destAccountInput = new FormControl('00000...', 
+    destAccountInput = new FormControl('', 
     [
       Validators.required,
       Validators.pattern("^[0-9]*$"),
@@ -65,9 +66,6 @@ import { TokioMarineService } from '@lib/services/tokio-marine/tokio-marine.serv
     }
   
     ngOnInit(): void {
-      this.service.getTranferencias().subscribe((result)=>{
-        console.log(result)
-      })
     }
     
     increaseStep = ()=>{ if(this.step < 4 ) this.step += 1; }
@@ -97,6 +95,18 @@ import { TokioMarineService } from '@lib/services/tokio-marine/tokio-marine.serv
         "destAccount":this.destAccountInput.value,
         "value": this.transfValueInput.value,
         "destAccount2" : this.destAccountInput.valid,
+      })
+
+      let transferencia: Transferencia = {
+        agendada: true, 
+        contaDestino: String(this.destAccountInput.value),
+        dataCriacao: this.today.toISOString().split("T")[0],
+        dataTransferencia: this.getDateFromNgbDateStruct(this.model).toISOString().split("T")[0],
+        valor: String(this.transfValueInput.value),
+      }
+
+      this.service.postTransferencia(transferencia).subscribe((result)=>{
+        console.log(result)
       })
     }
   }

@@ -1,10 +1,10 @@
 export interface Transferencia {
-    id: number
+    id?: number
     agendada: boolean
-    contaOrigem: string
+    contaOrigem?: string
     contaDestino: string
-    taxa: string
+    taxa?: string
     valor: string
     dataTransferencia: string
-    dataCriacao: string
+    dataCriacao?: string
   }
