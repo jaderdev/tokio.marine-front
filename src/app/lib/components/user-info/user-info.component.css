@@ -8,3 +8,7 @@ main {
 .card-text {
     text-indent: 20px;
 }
+
+@media (max-height: 800px) {
+    aside { display: none;}
+}

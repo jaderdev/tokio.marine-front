@@ -26,3 +26,9 @@ aside.extra {
     border-radius: 15px;
     
 }
+
+@media (max-height: 800px) {
+    aside.transferencia {
+        height: 70vh;
+    }
+}

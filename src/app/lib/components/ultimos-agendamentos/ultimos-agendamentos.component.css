@@ -16,3 +16,15 @@ table {
    max-height: 660px;
   overflow: scroll;
  }
+
+ @media (max-height: 800px) {
+   .container-agendamentos {
+      max-height: 430px;
+    }
+    
+    .container-agendamentos table th:nth-child(2),
+    .container-agendamentos table td:nth-child(2)
+    {
+      display: none;
+    }
+ }
