@@ -1,3 +1,15 @@
+Projeto front-end criado para Tokio Marine
+
+- Escolhi angular pois já trabalho com ele tem 8 anos e gosto muito da estrutura e coerência que tem.
+- Gosto de pré-processadores de css e tenho costume de usar SASS mas não quis usar nesse projeto.
+- Escolhi utilizar Ng-bootstrap como biblioteca de componentes para agilizar o projeto
+- Tentei implementar os toasts da biblioteca só que acabei tendo dificuldade então fiz algo genérico pra poder ter as notificações
+- Acabei deixando alguns detalhes para trás, mas acredito que este projeto já prova o conhecimento que tenho
+
+
+As instruções estão abaixo para rodar o projeto
+
+
 # TokioMarineFront
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.10.
