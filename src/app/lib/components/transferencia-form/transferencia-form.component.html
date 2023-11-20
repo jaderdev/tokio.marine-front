@@ -1,4 +1,7 @@
 <div class="container mt-4">
+    <div class="fake-toast position-absolute">
+        <ngb-alert *ngFor="let alert of alerts" [type]="alert.type" (closed)="close(alert)">{{ alert.message }}</ngb-alert>
+    </div>
     <div class="row border-bottom">
         <div class="col-12" [hidden]="step !== 1">
             <h2 class="h5"> Qual será o dia?</h2>
@@ -26,7 +29,7 @@
             <div class="mb-3 pt-4 step-body">
                 <label for="conta" class="form-label">Para a conta:</label>
                 <input id="conta" class="form-control" type="text" [formControl]="destAccountInput" 
-                placeholder="Conta destino - XXXXXXXXXX" aria-label="default input example" maxlength="10" (keyup)="verifyAccount($event.target)">
+                placeholder="Conta destino - XXXXXXXXXX" aria-label="default input example" maxlength="10" minlength="10" (keyup)="verifyAccount($event.target)">
             </div>
         </div>
         <div class="col-12 pt-4 text-center step-body" [hidden]="step !== 3">
@@ -37,7 +40,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col">
+                <div class="col tabela-taxa">
                     <table class="table">
                         <thead>
                           <tr>
@@ -46,17 +49,9 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <th scope="row">1 a 10</th>
-                            <td>Mark</td>
-                          </tr>
-                          <tr>
-                            <th scope="row">11 a 20</th>
-                            <td>Jacob</td>
-                          </tr>
-                          <tr>
-                            <th scope="row">21 a 30</th>
-                            <td colspan="2">Larry the Bird</td>
+                          <tr *ngFor="let taxa of taxasTransferencia">
+                            <th class="text-start" scope="row">De {{ taxa.de }} dias até {{ taxa.ate }} dias</th>
+                            <td>{{ parseTaxFromPercentage(taxa.taxa) }}%</td>
                           </tr>
                         </tbody>
                       </table>

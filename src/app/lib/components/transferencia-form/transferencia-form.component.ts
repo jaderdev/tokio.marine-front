@@ -8,6 +8,18 @@ import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { TokioMarineService } from '@lib/services/tokio-marine/tokio-marine.service';
 import { Transferencia } from '@lib/models/itransferencia';
+import { NgFor } from '@angular/common';
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { TaxasTransferencia } from '@lib/models/itaxas-transferencia';
+
+interface Alert {
+  type: string;
+  message: string;
+}
+
+const ALERTS: Alert[] = [
+	
+];
 
 @Component({
   selector: 'app-transferencia-form',
@@ -18,7 +30,9 @@ import { Transferencia } from '@lib/models/itransferencia';
     FormsModule,
     NgIconComponent,
     ReactiveFormsModule,
-    CurrencyMaskModule
+    CurrencyMaskModule,
+    NgFor,
+    NgbAlertModule
   ],
   templateUrl: './transferencia-form.component.html',
   styleUrls: ['./transferencia-form.component.css'],
@@ -31,6 +45,7 @@ import { Transferencia } from '@lib/models/itransferencia';
   })
   export class TransferenciaFormComponent implements OnInit{
     
+    alerts: Alert[]= [];
     today = new Date();
     step: number;
     appliedTax: number = 0;
@@ -57,15 +72,22 @@ import { Transferencia } from '@lib/models/itransferencia';
     ]);
     
     transfValueInput = new FormControl(0);
+    taxasTransferencia: TaxasTransferencia[] = [];
     
     constructor(
       private formBuilder: FormBuilder,
       private service: TokioMarineService
       ) {
-      this.step = 1;
+      this.step = 3;
+      this.reset();
     }
   
     ngOnInit(): void {
+      this.service.getTaxasTransferencia().subscribe({
+        next: (result)=>{
+          this.taxasTransferencia = result;
+        }
+      })
     }
     
     increaseStep = ()=>{ if(this.step < 4 ) this.step += 1; }
@@ -90,13 +112,6 @@ import { Transferencia } from '@lib/models/itransferencia';
     }
 
     enviarTransacao(){
-      console.table({
-        "date": `${this.model.year}-${this.model.month}-${this.model.day}`,
-        "destAccount":this.destAccountInput.value,
-        "value": this.transfValueInput.value,
-        "destAccount2" : this.destAccountInput.valid,
-      })
-
       let transferencia: Transferencia = {
         agendada: true, 
         contaDestino: String(this.destAccountInput.value),
@@ -105,9 +120,38 @@ import { Transferencia } from '@lib/models/itransferencia';
         valor: String(this.transfValueInput.value),
       }
 
-      this.service.postTransferencia(transferencia).subscribe((result)=>{
-        console.log(result)
-      })
+      this.service.postTransferencia(transferencia).subscribe({
+        next: (result: any)=>{
+          this.addAlert("Transferência salva com sucesso","success")
+        },
+        error: (result)=>{
+          console.log(result)
+          for(let r in result.error){
+            let alert = this.addAlert(`${r}: ${result.error[r]}`,"danger")
+            setTimeout(()=>{
+              this.close(alert);          
+            },5000)
+          }
+      }})
+    }
+  
+    addAlert(message: string, type: string){
+      let alert: Alert = { type: type, message: message};
+      this.alerts.push(alert)
+      return alert;
+    }
+    
+    close(alert: Alert) {
+      this.alerts.splice(this.alerts.indexOf(alert), 1);
+    }
+ 
+    reset() {
+      this.alerts = Array.from(ALERTS);
+    }
+
+    parseTaxFromPercentage(tax: string | undefined){
+      let percent: string = String(Number(tax) * 100);
+      return percent.substring(0,percent.indexOf(".")+2);
     }
   }
   

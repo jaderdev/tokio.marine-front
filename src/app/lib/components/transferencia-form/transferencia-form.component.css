@@ -37,3 +37,14 @@ ng-icon {
     font-size: 50pt;
     padding: 10px 10px 0px 10px;
 }
+
+.fake-toast {
+    top: 20px;
+    right: 20px;
+    z-index: 90;
+}
+
+.tabela-taxa {
+    overflow: scroll;
+    height: 200px;
+}
