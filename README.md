@@ -9,6 +9,11 @@ Projeto front-end criado para Tokio Marine
 
 As instruções estão abaixo para rodar o projeto
 
+Primeiro basta rodar `npm install` para poder ter todas as dependências necessárias.
+Depois `npm start --open` e o projeto já deve funcionar ele roda na porta 4200 e será aberto na url
+
+`http://localhost:4200`
+
 
 # TokioMarineFront
 
