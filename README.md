@@ -6,6 +6,8 @@ Projeto front-end criado para Tokio Marine
 - Tentei implementar os toasts da biblioteca só que acabei tendo dificuldade então fiz algo genérico pra poder ter as notificações
 - Acabei deixando alguns detalhes para trás, mas acredito que este projeto já prova o conhecimento que tenho
 
+No front-end não consegui ir muito adiante com questões de responsividade, minha tela é de 1920x1080 e caso a tela que você utiliza seja menor,
+basta diminuir o zoom
 
 As instruções estão abaixo para rodar o projeto
 
