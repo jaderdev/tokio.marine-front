@@ -45,13 +45,15 @@
                         <thead>
                           <tr>
                             <th scope="col">Quantidade de dias</th>
-                            <th scope="col">Taxa aplicada</th>
+                            <th scope="col">Taxa aplicada ao valor</th>
+                            <th scope="col">Taxa de transferência</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr *ngFor="let taxa of taxasTransferencia">
-                            <th class="text-start" scope="row">De {{ taxa.de }} dias até {{ taxa.ate }} dias</th>
+                            <th class="text-start" scope="row">De {{ taxa.de }} até {{ taxa.ate }} dias</th>
                             <td>{{ parseTaxFromPercentage(taxa.taxa) }}%</td>
+                            <td>{{ getValuefromString(taxa.valor) | currency: 'BRL' }}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -74,12 +76,12 @@
                     <td>{{ destAccountInput.value }}</td>
                   </tr>
                   <tr>
-                    <th scope="row">Taxa aplicada:</th>
-                    <td>{{ appliedTax }}</td>
+                    <th scope="row">Taxa aplicada ao valor:</th>
+                    <td>{{ parseTaxFromPercentage(appliedTaxCalc()?.taxa) }}%</td>
                   </tr>
                   <tr>
                     <th scope="row">Valor da taxa:</th>
-                    <td>{{ taxValue | currency : 'BRL'}}</td>
+                    <td>{{ appliedTaxCalc()?.valor | currency : 'BRL'}}</td>
                   </tr>
                   <tr>
                     <th scope="row">Valor da transferência:</th>

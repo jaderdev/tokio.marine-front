@@ -10,7 +10,7 @@ import { TokioMarineService } from '@lib/services/tokio-marine/tokio-marine.serv
 import { Transferencia } from '@lib/models/itransferencia';
 import { NgFor } from '@angular/common';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
-import { TaxasTransferencia } from '@lib/models/itaxas-transferencia';
+import { TaxasTransferencia as TaxaTransferencia } from '@lib/models/itaxas-transferencia';
 
 interface Alert {
   type: string;
@@ -66,13 +66,13 @@ const ALERTS: Alert[] = [
       Validators.required,
       Validators.min(2)
     ]);
-    taxasTransferencia: TaxasTransferencia[] = [];
+    taxasTransferencia: TaxaTransferencia[] = [];
     
     constructor(
       private formBuilder: FormBuilder,
       private service: TokioMarineService
       ) {
-      this.step = 1;
+      this.step = 3;
       this.reset();
 
       let today = new Date();
@@ -133,7 +133,6 @@ const ALERTS: Alert[] = [
       const final: Date = new Date(this.model.year,this.model.month,this.model.day);
       const initial: Date = new Date(this.minDate.year,this.minDate.month,this.minDate.day);
       const milisecondsDiff: number = final.getTime() - initial.getTime();
-      
       return milisecondsDiff / (miliseconds * secondsInAHour * hoursInADay);
     }
     
@@ -185,6 +184,18 @@ const ALERTS: Alert[] = [
     parseTaxFromPercentage(tax: string | undefined){
       let percent: string = String(Number(tax) * 100);
       return percent.substring(0,percent.indexOf(".")+2);
+    }
+
+    getValuefromString(value: string){
+      return value === "00,00" ? 0 : value;
+    }
+
+    appliedTaxCalc(){
+      let interval = this.intervaloDeDatasEmDias()
+      const taxa: TaxaTransferencia[] = this.taxasTransferencia.filter((tax: TaxaTransferencia)=>{
+        return interval >= tax.de && interval <= tax.ate;
+      })
+      return taxa[0]
     }
   }
   
