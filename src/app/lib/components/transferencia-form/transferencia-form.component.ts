@@ -72,7 +72,7 @@ const ALERTS: Alert[] = [
       private formBuilder: FormBuilder,
       private service: TokioMarineService
       ) {
-      this.step = 3;
+      this.step = 1;
       this.reset();
 
       let today = new Date();
