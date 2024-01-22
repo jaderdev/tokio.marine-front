@@ -47,6 +47,7 @@ ng-icon {
 .tabela-taxa {
     overflow: scroll;
     height: 200px;
+    overflow-x: hidden;
 }
 
 @media (max-height: 800px) {

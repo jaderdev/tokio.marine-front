@@ -15,6 +15,7 @@ table {
  .container-agendamentos {
    max-height: 660px;
   overflow: scroll;
+  overflow-x: hidden;
  }
 
  @media (max-height: 800px) {

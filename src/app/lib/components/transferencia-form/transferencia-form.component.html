@@ -77,11 +77,11 @@
                   </tr>
                   <tr>
                     <th scope="row">Taxa aplicada ao valor:</th>
-                    <td>{{ parseTaxFromPercentage(appliedTaxCalc()?.taxa) }}%</td>
+                    <td>{{ parseTaxFromPercentage(appliedTaxCalc().taxa) }}%</td>
                   </tr>
                   <tr>
                     <th scope="row">Valor da taxa:</th>
-                    <td>{{ appliedTaxCalc()?.valor | currency : 'BRL'}}</td>
+                    <td>{{ appliedTaxCalc().valor | currency : 'BRL'}}</td>
                   </tr>
                   <tr>
                     <th scope="row">Valor da transferência:</th>

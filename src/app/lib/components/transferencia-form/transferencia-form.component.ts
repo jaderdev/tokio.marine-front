@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormsModule } from '@angular/forms';
 import { NgbDatepickerModule,NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
@@ -11,6 +11,7 @@ import { Transferencia } from '@lib/models/itransferencia';
 import { NgFor } from '@angular/common';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { TaxasTransferencia as TaxaTransferencia } from '@lib/models/itaxas-transferencia';
+import { EventService } from '@lib/services/event/event.service';
 
 interface Alert {
   type: string;
@@ -44,7 +45,6 @@ const ALERTS: Alert[] = [
     })]
   })
   export class TransferenciaFormComponent implements OnInit{
-    
     alerts: Alert[]= [];
     step: number;
     appliedTax: number = 0;
@@ -71,7 +71,8 @@ const ALERTS: Alert[] = [
     
     constructor(
       private formBuilder: FormBuilder,
-      private service: TokioMarineService
+      private service: TokioMarineService,
+      private eventService: EventService
       ) {
       this.step = 1;
       this.reset();
@@ -153,7 +154,9 @@ const ALERTS: Alert[] = [
 
       this.service.postTransferencia(transferencia).subscribe({
         next: (result: any)=>{
-          this.addAlert("Transferência salva com sucesso","success")
+          this.addAlert("Transferência salva com sucesso","success");
+          this.eventService.sendUpdate("updated");
+          this.clearForm()
         },
         error: (result)=>{
           console.log(result)
@@ -164,6 +167,18 @@ const ALERTS: Alert[] = [
             },5000)
           }
       }})
+    }
+
+    clearForm() {
+      this.step = 1;
+      this.destAccountInput.setValue("");
+      this.transfValueInput.setValue(0);
+      let today = new Date();
+      this.model = {  
+        day: today.getUTCDate(), 
+        month: today.getUTCMonth() + 1,
+        year: today.getUTCFullYear()
+      };
     }
   
     addAlert(message: string, type: string){
@@ -189,7 +204,7 @@ const ALERTS: Alert[] = [
     }
 
     getValuefromString(value: string){
-      return value === "00,00" ? 0 : value;
+      return value === "00,00" ? 0 : Number(value);
     }
 
     appliedTaxCalc(){
